@@ -36,10 +36,12 @@ app.post("/api/user", userService.create);
 //project CRUD operations
 app.get("/api/projects", projectService.get);
 app.post("/api/project", projectService.create);
+app.get("/api/projectsummary", projectService.getUserProjectCount);
+
 
 //sync the model with the database force:true will clean all tables
-//sequelize.sync({force: true}).success(function (err) {
-sequelize.sync().success(function (err) {
+sequelize.sync({force: true}).then(function (err) {
+//sequelize.sync().then(function (err) {
   if (typeof err.stack !== 'undefined' && err.stack !== null){
      console.log(err.stack);
   }else{
@@ -76,7 +78,7 @@ app.use(function(err, req, res, next){
 
     // respond with html page
     if(req.accepts('html')) {
-        res.render('500.ejs', {title :'500: Internal Server Error',error: error});
+        res.render('500.ejs', {title :'500: Internal Server Error',error: err});
         return;
     }
 

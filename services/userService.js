@@ -7,12 +7,12 @@ module.exports = function (sequelize) {
                 username: req.body.username,
                 password: req.body.password
             }
-            User.create(newUser).success(function () {
+            User.create(newUser).then(function () {
                 res.send(200);
             });
         },
         get: function (req, res) {
-            User.findAll().success(function (users) {
+            User.findAll().then(function (users) {
                 res.send(users);
             });
         }

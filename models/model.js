@@ -8,15 +8,19 @@ module.exports = function (sequelize) {
     });
 
     //project
-    var Project = sequelize.define('Project', {
+    var Project = sequelize.define("Project", {
         name: Sequelize.STRING,
         UserId:{
              type:Sequelize.INTEGER,
-             references: User,             
-             referencesKey: 'id',
+             references: {
+                     model: User,
+                      key: "id"
+             }
         }
-    }
-    );
+    });
+    
+    Project.belongsTo(User);
+    User.hasMany(Project);
 
     return {
         User: User,
