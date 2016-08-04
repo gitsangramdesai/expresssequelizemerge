@@ -1,0 +1,13 @@
+> npm install
+> npm start
+
+//on browser hit 
+http://localhost:5000/api
+http://localhost:5000/api/users
+http://localhost:5000/api/projects
+
+//error handling 
+404 & 500
+
+//references
+1) https://github.com/milinaudara/PasswordTracker.git

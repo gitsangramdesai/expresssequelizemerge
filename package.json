@@ -1,0 +1,27 @@
+{
+  "name": "express_generated_sequelize_merge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "body-parser": "~1.2.0",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.1",
+    "express": "~4.3.1",
+    "morgan": "^1.7.0",
+    "pg": "~3.2.0",
+    "sequelize": "~1.7.5",
+    "serve-favicon": "^2.3.0",
+    "debug": "~2.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
