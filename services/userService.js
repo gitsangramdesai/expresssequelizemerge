@@ -1,6 +1,8 @@
 module.exports = function (sequelize) {
-    var model = require("../models/model")(sequelize);
-    var User = model.User;
+    //var model = require("../models/model")(sequelize);
+    var models = require("../models");
+    var User = models.User;
+    
     return {
         create: function (req, res) {
             var newUser = {

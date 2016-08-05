@@ -6,18 +6,20 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var env = process.env.NODE_ENV || "development";
+var config = require(__dirname + '/config/config.json')[env];
+
 var Sequelize = require("sequelize");
 var routes = require('./routes/routes');
 
-
-var app = express();
-
 //sequelize initialization
-var sequelize = new Sequelize("postgres://postgres:sangram@localhost:5432/poc");
+//var sequelize = new Sequelize("postgres://postgres:sangram@localhost:5432/poc");
+var sequelize = new Sequelize(config.database, config.username, config.password, config);
 var userService = require("./services/userService")(sequelize);
 var projectService = require("./services/projectService")(sequelize);
 
 // view engine setup
+var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
