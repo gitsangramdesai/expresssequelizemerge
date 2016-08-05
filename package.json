@@ -9,13 +9,14 @@
   "dependencies": {
     "body-parser": "~1.2.0",
     "cookie-parser": "^1.4.3",
+    "dateformat": "^1.0.12",
+    "debug": "~2.2.0",
     "ejs": "^2.5.1",
     "express": "~4.3.1",
     "morgan": "^1.7.0",
     "pg": "~3.2.0",
     "sequelize": "3.23.6",
-    "serve-favicon": "^2.3.0",
-    "debug": "~2.2.0"
+    "serve-favicon": "^2.3.0"
   },
   "devDependencies": {},
   "scripts": {

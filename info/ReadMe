@@ -9,5 +9,12 @@ http://localhost:5000/api/projects
 //error handling 
 404 & 500
 
+//migration
+ 1)sequelize init then 
+   sequelize migration:create
+    generate migration file which is just skeleton
+ 2) write migration code by handling
+ 3) run "sequelize db:migrate" generate tables into our database
+
 //references
 1) https://github.com/milinaudara/PasswordTracker.git

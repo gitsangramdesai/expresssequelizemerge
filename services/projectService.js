@@ -20,6 +20,11 @@ module.exports = function (sequelize) {
                 res.send(projects);
             });
         },
+       getUserProject: function (req, res) {
+            Project.findAll({ where: { UserId: req.body.UserId }, include: [User] }).success(function (projects) {
+                res.send(projects);
+            });
+        },
         getUserProjectCount: function (req, res) {
             Project.findAll(
                 {

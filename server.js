@@ -37,12 +37,13 @@ app.post("/api/user", userService.create);
 //project CRUD operations
 app.get("/api/projects", projectService.get);
 app.post("/api/project", projectService.create);
+app.post("/api/user/projects", projectService.getUserProject);
 app.get("/api/projectsummary", projectService.getUserProjectCount);
 
 
 //sync the model with the database force:true will clean all tables
-//sequelize.sync({force: true}).then(function (err) {
-sequelize.sync().then(function (err) {
+sequelize.sync({force: true}).then(function (err) {
+//sequelize.sync().then(function (err) {
   if (typeof err.stack !== 'undefined' && err.stack !== null){
      console.log(err.stack);
   }else{
