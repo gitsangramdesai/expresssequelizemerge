@@ -13,7 +13,6 @@ var Sequelize = require("sequelize");
 var routes = require('./routes/routes');
 
 //sequelize initialization
-//var sequelize = new Sequelize("postgres://postgres:sangram@localhost:5432/poc");
 var sequelize = new Sequelize(config.database, config.username, config.password, config);
 var userService = require("./services/userService")(sequelize);
 var projectService = require("./services/projectService")(sequelize);
@@ -42,8 +41,8 @@ app.get("/api/projectsummary", projectService.getUserProjectCount);
 
 
 //sync the model with the database force:true will clean all tables
-sequelize.sync({force: true}).then(function (err) {
-//sequelize.sync().then(function (err) {
+//sequelize.sync({force: true}).then(function (err) {
+sequelize.sync().then(function (err) {
   if (typeof err.stack !== 'undefined' && err.stack !== null){
      console.log(err.stack);
   }else{
