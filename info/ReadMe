@@ -16,5 +16,8 @@ http://localhost:5000/api/projects
  2) write migration code by handling
  3) run "sequelize db:migrate" generate tables into our database
 
+ //logging setup
+ chmod -R  0666 logs
+
 //references
 1) https://github.com/milinaudara/PasswordTracker.git

@@ -1,0 +1,11 @@
+{
+    "setting": {
+        "log": {
+            "access": {
+                "fileformat": "yyyyMMdd",
+                "prefix": "access",
+                "seperator": "_"
+            }
+        }
+    }
+}

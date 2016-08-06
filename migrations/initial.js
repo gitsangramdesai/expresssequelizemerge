@@ -60,7 +60,7 @@ module.exports = {
           max: 50
         },
         //foreign key usage
-        userid: {
+        UserId: {
           type: Sequelize.INTEGER,
           references: {
             model: 'Users',
