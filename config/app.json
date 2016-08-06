@@ -2,8 +2,23 @@
     "setting": {
         "log": {
             "access": {
-                "fileformat": "yyyyMMdd",
+                "fileformat": "yyyymmdd",
                 "prefix": "access",
+                "seperator": "_"
+            },
+            "error": {
+                "fileformat": "yyyymmdd",
+                "prefix": "error",
+                "seperator": "_"
+            },
+             "debug": {
+                "fileformat": "yyyymmdd",
+                "prefix": "debug",
+                "seperator": "_"
+            },
+             "info": {
+                "fileformat": "yyyymmdd",
+                "prefix": "info",
                 "seperator": "_"
             }
         }

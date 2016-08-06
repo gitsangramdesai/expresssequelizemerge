@@ -21,3 +21,12 @@ http://localhost:5000/api/projects
 
 //references
 1) https://github.com/milinaudara/PasswordTracker.git
+
+//logger
+ Use this singleton instance of logger like:
+ logger = require( 'Logger.js' );
+ logger.debug( 'your debug statement' );
+ logger.warn( 'your warning' );
+
+//winston log types 
+   debug: 0,info: 1,warn: 2,error: 3
