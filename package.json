@@ -19,7 +19,17 @@
     "promise": "^7.1.1",
     "sequelize": "3.23.6",
     "serve-favicon": "^2.3.0",
-    "winston": "^2.2.0"
+    "winston": "^2.2.0",
+    "gulp": "latest",
+    "gulp-util": "latest",
+    "gulp-sass": "latest",
+    "gulp-coffee": "latest",
+    "gulp-uglify": "latest",
+    "gulp-concat": "latest",
+    "gulp-connect": "latest",
+    "gulp-zip":"latest",
+    "gulp-clean":"latest",
+    "del":"latest"
   },
   "devDependencies": {},
   "scripts": {
