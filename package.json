@@ -29,7 +29,8 @@
     "gulp-connect": "latest",
     "gulp-zip":"latest",
     "gulp-clean":"latest",
-    "del":"latest"
+    "del":"latest",
+    "gulp-directory-map":"latest"
   },
   "devDependencies": {},
   "scripts": {
