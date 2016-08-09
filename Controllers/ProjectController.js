@@ -34,7 +34,7 @@ exports.Create = function (req, res) {
     };
     //console.log('***' + JSON.stringify(newProject) + '***');
     projectService.findorcreate(newProject).then(function (result) {
-        console.log('##' + JSON.stringify(result) + '##');
+        //console.log('##' + JSON.stringify(result) + '##');
         res.send(result);
     }).done();
 };

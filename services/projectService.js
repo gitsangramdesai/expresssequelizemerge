@@ -1,24 +1,22 @@
+//do not use .done here
 module.exports = function (sequelize) {
-    var models = require("../models");
-
-    var Project = models.Project;
-    var User = models.User;
+    var db = require("../models");
 
     return {
         get: function (req, res) {
-            return Project.findAll().then(function (projects) {
+            return db.Project.findAll().then(function (projects) {
                 return projects;
             }).error(function (err) {
                 return null;
             });
         },
         getUserProject: function (req, res) {
-            return Project.findAll(
+            return db.Project.findAll(
                 {
                     where: {
                         UserId: req.body.UserId
                     },
-                    include: [User]
+                    include: [dn.User]
                 }
             ).then(function (projects) {
                 return projects;
@@ -27,12 +25,12 @@ module.exports = function (sequelize) {
             });
         },
         getUserProjectCount: function (req, res) {
-            return Project.findAll(
+            return db.Project.findAll(
                 {
                     attributes: ['User.username', [sequelize.fn('COUNT', sequelize.col('Project.id')), 'ProjectCount']],
                     include: [
                         {
-                            model: User,
+                            model: db.User,
                             attributes: [],
                             include: []
                         }
@@ -47,7 +45,7 @@ module.exports = function (sequelize) {
             })
         },
         findthencreate: function (newProject) {
-            return User.find(
+            return db.User.find(
                 {
                     where: {
                         name: sequelize.or([newProject.name.toUpperCase(), newProject.name.toLowerCase()])
@@ -55,7 +53,7 @@ module.exports = function (sequelize) {
                 }).then(function (project) {
                     //console.log('9090' + JSON.stringify(user) + '9090');
                     if (project == null) {
-                        return project.create({
+                        return db.Project.create({
                             name: newProject.name,
                             UserId: newProject.UserId
                         }).then(function (newProject) {
@@ -74,7 +72,7 @@ module.exports = function (sequelize) {
                 });
         },
         findorcreate: function (newProject) {
-            return Project.findOrCreate({
+            return db.Project.findOrCreate({
                 where: {
                     name: sequelize.or(
                         [newProject.name.toUpperCase(),newProject.name.toLowerCase()]
@@ -85,7 +83,7 @@ module.exports = function (sequelize) {
                     UserId: newProject.UserId
                 }
             }).spread(function (user, created) {
-                console.log(':::' + JSON.stringify(created));
+                //console.log(':::' + JSON.stringify(created));
                 if (created) {
                     return { status: true, message: 'OK', error: null };
                 } else {

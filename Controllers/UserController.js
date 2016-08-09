@@ -21,7 +21,7 @@ exports.Create = function (req, res) {
         contact: req.body.contact,
         isActive: true
     };
-    console.log('***' + JSON.stringify(newuser) + '***' + "\n");
+    //console.log('***' + JSON.stringify(newuser) + '***' + "\n");
     userService.findorcreate(newuser).then(function (result) {
         //console.log('##' + JSON.stringify(result) + '##');
         res.send(result);

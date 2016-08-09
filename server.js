@@ -6,9 +6,8 @@ var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-//controller
-var UserController = require('./Controllers/UserController');
-var ProjectController = require('./Controllers/ProjectController');
+//controllers
+var Controllers = require('./Controllers');
 
 //required for logging
 var morgan = require('morgan');
@@ -118,14 +117,14 @@ app.use(bodyParser());
 app.use('/api/', routes);//mount routes to mount point api(/api) instead of root(/)
 
 //Users
-app.get('/api/users', UserController.Index);
-app.post('/api/user', UserController.Create);
+app.get('/api/users', Controllers.User.Index);
+app.post('/api/user', Controllers.User.Create);
 
 //Projects
-app.get('/api/Projects',ProjectController.Index);
-app.post('/api/project', ProjectController.Create);  
-app.post('/api/user/projects', ProjectController.GetUserProject);
-app.get('/api/projects/projectsummary', ProjectController.GetUserProjectCount);
+app.get('/api/Projects',Controllers.Project.Index);
+app.post('/api/project', Controllers.Project.Create);  
+app.post('/api/user/projects', Controllers.Project.GetUserProject);
+app.get('/api/projects/projectsummary', Controllers.Project.GetUserProjectCount);
 
 
 
