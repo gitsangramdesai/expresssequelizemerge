@@ -18,7 +18,6 @@ exports.GetUserProject = function (req, res) {
     }).done();
 };
 
-
 // /api/projects/projectsummary
 exports.GetUserProjectCount = function (req, res) {
     projectService.getUserProjectCount(req, res).then(function (results) {

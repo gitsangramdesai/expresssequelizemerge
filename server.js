@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 //controllers
-var Controllers = require('./Controllers');
+var Controllers = require('./controllers');
 
 //required for logging
 var morgan = require('morgan');
@@ -125,8 +125,6 @@ app.get('/api/Projects',Controllers.Project.Index);
 app.post('/api/project', Controllers.Project.Create);  
 app.post('/api/user/projects', Controllers.Project.GetUserProject);
 app.get('/api/projects/projectsummary', Controllers.Project.GetUserProjectCount);
-
-
 
 //sequelize.sync().then(function (err) {
 sequelize.sync({ force: true }).then(function (err) {
