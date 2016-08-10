@@ -27,12 +27,14 @@
     "gulp-uglify": "latest",
     "gulp-concat": "latest",
     "gulp-connect": "latest",
-    "gulp-zip":"latest",
-    "gulp-clean":"latest",
-    "del":"latest",
-    "gulp-directory-map":"latest"
+    "gulp-zip": "latest",
+    "gulp-clean": "latest",
+    "del": "latest",
+    "gulp-directory-map": "latest"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "browser-sync": "^2.14.0"
+  },
   "scripts": {
     "test": "mocha",
     "start": "node server.js"

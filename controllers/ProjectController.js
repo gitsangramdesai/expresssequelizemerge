@@ -5,9 +5,17 @@ var sequelize = new Sequelize(config.database, config.username, config.password,
 var projectService = require("../services/projectService")(sequelize);
 
 // api/projects
-exports.Index = function (req, res) {
+/*exports.Index = function (req, res) {
     projectService.get(req, res).then(function (results) {
         res.send(results);
+    }).done();
+};*/
+
+ 
+exports.Index = function (req, res) {
+    projectService.get(req, res).then(function (results) {
+        res.render('project/index.ejs', {projects:results});
+        //res.send(results);
     }).done();
 };
 

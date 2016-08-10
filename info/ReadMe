@@ -21,7 +21,7 @@ http://localhost:5000/api/projects
 
 //references
 1) https://github.com/milinaudara/PasswordTracker.git
-
+2)http://bootsnipp.com/snippets/featured/styled-table
 //logger
  Use this singleton instance of logger like:
  logger = require( 'Logger.js' );
