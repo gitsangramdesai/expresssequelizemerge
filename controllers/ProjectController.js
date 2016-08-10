@@ -15,7 +15,11 @@ var projectService = require("../services/projectService")(sequelize);
 exports.Index = function (req, res) {
     projectService.get(req, res).then(function (results) {
         res.render('project/index.ejs', {projects:results});
-        //res.send(results);
+    }).done();
+};
+exports.GetAll = function (req, res) {
+    projectService.get(req, res).then(function (results) {
+        res.send(results);
     }).done();
 };
 

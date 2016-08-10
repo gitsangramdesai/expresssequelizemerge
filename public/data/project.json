@@ -1,0 +1,22 @@
+{
+    "total": 3,
+    "rows": [{
+        "id": 14,
+        "name": "TpLink",
+        "UserId": 4,
+        "createdAt": "2016-08-05T15:49:26.176Z",
+        "updatedAt": "2016-08-05T15:49:26.176Z"
+    }, {
+        "id": 15,
+        "name": "SeaLink",
+        "UserId": 4,
+        "createdAt": "2016-08-05T15:49:34.769Z",
+        "updatedAt": "2016-08-05T15:49:34.769Z"
+    }, {
+        "id": 16,
+        "name": "DLink",
+        "UserId": 4,
+        "createdAt": "2016-08-05T15:49:40.175Z",
+        "updatedAt": "2016-08-05T15:49:40.175Z"
+    }]
+}

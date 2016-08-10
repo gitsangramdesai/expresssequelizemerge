@@ -49,7 +49,7 @@ var infoLogFilename = __dirname + '/logs/' + appSettings.setting.log.info.prefix
 var debugLogFilename = __dirname + '/logs/' + appSettings.setting.log.debug.prefix + '/' + appSettings.setting.log.debug.prefix + appSettings.setting.log.debug.seperator + dateFormat(new Date(), appSettings.setting.log.debug.fileformat) + '.log';
 
 //warning
-winstonWarningLogger = new (winston.Logger)({
+winstonWarningLogger = new(winston.Logger)({
     transports: [
         new winston.transports.Console({
             level: 'warn', // Only write logs of warn level or higher
@@ -64,7 +64,7 @@ winstonWarningLogger = new (winston.Logger)({
 });
 
 //error
-winstonErrorLogger = new (winston.Logger)({
+winstonErrorLogger = new(winston.Logger)({
     transports: [
         new winston.transports.File({
             level: 'error',
@@ -80,7 +80,7 @@ winstonErrorLogger = new (winston.Logger)({
 });
 
 //Info
-winstonInfoLogger = new (winston.Logger)({
+winstonInfoLogger = new(winston.Logger)({
     transports: [
         new winston.transports.File({
             level: 'info',
@@ -96,7 +96,7 @@ winstonInfoLogger = new (winston.Logger)({
 });
 
 //debug
-winstonDebugLogger = new (winston.Logger)({
+winstonDebugLogger = new(winston.Logger)({
     transports: [
         new winston.transports.File({
             level: 'debug',
@@ -111,23 +111,27 @@ winstonDebugLogger = new (winston.Logger)({
     ]
 });
 
-var accessLogStream = fs.createWriteStream(accessLogFilename,{flags: 'a'});
-app.use(morgan('combined', { 'stream': accessLogStream }));//attach default logger
+var accessLogStream = fs.createWriteStream(accessLogFilename, { flags: 'a' });
+app.use(morgan('combined', { 'stream': accessLogStream })); //attach default logger
 app.use(bodyParser());
-app.use('/api/', routes);//mount routes to mount point api(/api) instead of root(/)
+app.use('/api/', routes); //mount routes to mount point api(/api) instead of root(/)
+app.use('/static', express.static('public')); //hosting static files
 
 //Users
 app.get('/api/users', Controllers.User.Index);
 app.post('/api/user', Controllers.User.Create);
 
 //Projects
-app.get('/api/Projects',Controllers.Project.Index);
-app.post('/api/project', Controllers.Project.Create);  
+app.get('/api/Projects', Controllers.Project.Index);
+app.post('/api/project', Controllers.Project.Create);
 app.post('/api/user/projects', Controllers.Project.GetUserProject);
 app.get('/api/projects/projectsummary', Controllers.Project.GetUserProjectCount);
 
+//API
+app.get('/api/Projects/getall', Controllers.Project.GetAll);
+
 //sequelize.sync().then(function (err) {
-sequelize.sync({ force: true }).then(function (err) {
+sequelize.sync({ force: true }).then(function(err) {
     if (typeof err.stack !== 'undefined' && err.stack !== null) {
         console.log(err.stack);
     } else {
@@ -136,7 +140,7 @@ sequelize.sync({ force: true }).then(function (err) {
 });
 
 //page not found
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
     res.status(404);
     if (req.accepts('html')) {
         res.render('404.ejs', { title: '404: Page Not Found', Url: req.url });
@@ -150,7 +154,7 @@ app.use(function (req, res, next) {
 });
 
 //internal server error
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     if (req.accepts('html')) {
         res.render('500.ejs', { title: '500: Internal Server Error', error: err });
@@ -159,13 +163,13 @@ app.use(function (err, req, res, next) {
     res.type('txt').send('Something is broken on our end, email us if this issue persist.');
 });
 
-app.listen(5000, function () {
+app.listen(5000, function() {
     winstonInfoLogger.log('info', 'listening started at ' + (new Date).toUTCString());
     console.log('App is listening on port 5000!');
 });
 
 
-process.on('uncaughtException', function (err) {
+process.on('uncaughtException', function(err) {
     console.log('error', (new Date).toUTCString() + ' uncaughtException:' + err.message);
     console.log('error', err.stack);
 

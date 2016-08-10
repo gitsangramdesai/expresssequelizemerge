@@ -1,58 +1,40 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css">
+    <script src="http://localhost:5000/static/assets/jquery/jquery.js"></script>
+     <link rel="stylesheet" href="http://localhost:5000/static/assets/bootstrap/css/bootstrap.css">
+     <link rel="stylesheet" href="http://localhost:5000/static/assets/bootstrap-table/bootstrap-table.css">
+     <link rel="stylesheet" href="http://localhost:5000/static/assets/bootstrap-editable/css/bootstrap-editable.css">
+     <script src="http://localhost:5000/static/assets/bootstrap/js/bootstrap.js"></script>
 
-     <link rel='stylesheet' href='/css/style.css' />
-    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>
+    <![endif]-->
   </head>
   <body>
-    <div class="span7">   
-<div class="widget stacked widget-table action-table">
-    				
-				<div class="widget-header">
-					<i class="icon-th-list"></i>
-					<h3>Projects</h3>
-				</div> <!-- /widget-header -->
-				
-				<div class="widget-content">
-					
-    <table class="table table-striped table-bordered">  
-        <thead class="thead-inverse">  
-            <tr>  
-                <th>Project Id</th>  
-                <th>Name</th>
-                <th>CreatedAt</th>  
-                <th>UpdatedAt</th>    
-                <th class="td-actions"></th>
-            </tr>  
-        </thead>  
-         <tbody>  
-         <% projects.forEach(function (project) { %>
-            <tr>  
-                <td  scope="row"><%= project.id %></td>  
-                <td><%= project.name %></td>
-                <td><%= project.createdAt %></td>  
-                <td><%= project.updatedAt %></td>
-                <td class="td-actions">
-									<a href="javascript:;" class="btn btn-small btn-primary">
-										<i class="btn-icon-only icon-ok"></i>										
-									</a>
-									
-									<a href="javascript:;" class="btn btn-small">
-										<i class="btn-icon-only icon-remove"></i>										
-									</a>
-								</td>
-            </tr>                                   
-         <% }) %>
-         </tbody>
-    </table>  
-					
-				</div> <!-- /widget-content -->
-			
-			</div> <!-- /widget -->
-            </div> 
+      <table id="table"
+           data-toolbar="#toolbar"
+           data-search="true"
+           data-show-refresh="true"
+           data-show-toggle="true"
+           data-show-columns="true"
+           data-show-export="true"
+           data-detail-view="true"
+           data-detail-formatter="detailFormatter"
+           data-minimum-count-columns="2"
+           data-show-pagination-switch="true"
+           data-pagination="true"
+           data-id-field="id"
+           data-page-list="[10, 25, 50, 100, ALL]"
+           data-show-footer="false"
+           data-side-pagination="server"
+           data-url="http://localhost:5000/static/data/project.json"
+           data-response-handler="responseHandler">
+        </table>
   </body>
+  <script src="http://localhost:5000/static/assets/app/app.js"></script>
 </html>
