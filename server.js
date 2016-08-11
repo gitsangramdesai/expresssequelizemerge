@@ -127,8 +127,11 @@ app.post('/api/project', Controllers.Project.Create);
 app.post('/api/user/projects', Controllers.Project.GetUserProject);
 app.get('/api/projects/projectsummary', Controllers.Project.GetUserProjectCount);
 
-//API
-app.get('/api/Projects/getall', Controllers.Project.GetAll);
+//sends  html only
+app.get('/api/Projects/serversidepaging', Controllers.Project.ServerSidePaging);
+
+//get paged data
+app.post('/api/Projects/getpage', Controllers.Project.GetPage);
 
 //sequelize.sync().then(function (err) {
 sequelize.sync({ force: true }).then(function(err) {
@@ -177,3 +180,5 @@ process.on('uncaughtException', function(err) {
     winstonErrorLogger.log('error', JSON.stringify(err.stack));
     //process.exit(1);
 })
+
+ 
