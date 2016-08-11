@@ -9,6 +9,9 @@ var Promise = require('bluebird');
 
 //create log directories
 gulp.task('createLogDir', function() {
+    if (!fs.existsSync('./logs/')) {
+        fs.mkdirSync('./logs/');
+    }
     if (!fs.existsSync('./logs/access/')) {
         fs.mkdirSync('./logs/access/');
     }
@@ -17,6 +20,9 @@ gulp.task('createLogDir', function() {
     }
     if (!fs.existsSync('./logs/error/')) {
         fs.mkdirSync('./logs/error/');
+    }
+     if (!fs.existsSync('./logs/exception/')) {
+        fs.mkdirSync('./logs/exception/');
     }
 });
 
