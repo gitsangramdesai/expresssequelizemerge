@@ -13,10 +13,18 @@ module.exports = function(sequelize) {
         getPage: function(pageRequest) {
             return db.Project.findAll({
                 order: 'id',
-                limit: 10,
-                offset: pageRequest.pageNo,
+                limit: pageRequest.length,
+                offset: pageRequest.start,
             }).then(function(projects) {
                 return projects;
+            }).error(function(err) {
+                return null;
+            });
+        },
+        getTotalCount: function(pageRequest) {
+            return db.Project.count({
+                }).then(function(TotalCount) {
+                return TotalCount;
             }).error(function(err) {
                 return null;
             });
