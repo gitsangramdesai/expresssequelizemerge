@@ -4,43 +4,59 @@ var Sequelize = require("sequelize");
 var sequelize = new Sequelize(config.database, config.username, config.password, config);
 var projectService = require("../services/projectService")(sequelize);
 
-//all data once
+
+//all results
 exports.Index = function (req, res) {
     projectService.get(req, res).then(function (results) {
-        res.render('project/index.ejs', { projects: results });
+        res.send(results);
     }).done();
 };
 
 //gives data required only in page
 exports.GetPage = function (req, res) {
     var valueArray = [];
-    var pageRequest = {
-        start: (req.body.start) ? req.body.start : 0,
-        length: (req.body.length) ? req.body.length : 10,
-        draw: (req.body.draw) ? req.body.draw : 1,
+    var pagingRequest = {
+        sort: (req.query.sort) ? req.query.sort : 'id',
+        order: (req.query.order) ? req.query.order : 'asc',
+        start: (req.query.start) ? req.query.start : 0,
+        length: (req.query.length) ? req.query.length : 10,
+        draw: (req.query.draw) ? req.query.draw : 1,
+        search: (req.query.search) ? req.query.search : ''
     };
+    console.log(JSON.stringify(pagingRequest));
 
-    console.log(JSON.stringify(pageRequest));
-    
-
-    projectService.getPage(pageRequest).then(function (results) {
-        projectService.getTotalCount(pageRequest, results).then(function (TotalCount) {
+    projectService.getPage(pagingRequest).then(function (results) {
+        projectService.getTotalCount(pagingRequest, results).then(function (TotalCount) {
             for (var i = 0, len = results.length; i < len; i++) {
                 valueArray[i] = [results[i].id, results[i].name, results[i].UserId, results[i].createdAt, results[i].updatedAt];
             }
-            var pagingResponse = { "draw": pageRequest.draw + 1, "recordsTotal": TotalCount, "recordsFiltered": TotalCount, "data": valueArray };
-            console.log(JSON.stringify(pagingResponse));
+            var pagingResponse = { "draw": pagingRequest.draw + 1, "recordsTotal": TotalCount, "recordsFiltered": TotalCount, "data": valueArray };
+            //console.log(JSON.stringify(pagingResponse));
             res.send(pagingResponse);
         })
     }).done();
 };
 
+exports.GetBSPage = function (req, res) {
+    var bsPagingRequest = {
+        sort: (req.query.sort) ? req.query.sort : 'id',
+        order: (req.query.order) ? req.query.order : 'asc',
+        start: (req.query.offset) ? req.query.offset : 0,
+        length: (req.query.limit) ? req.query.limit : 10,
+        search: (req.query.search) ? req.query.search : ''
+    };
+    console.log(JSON.stringify(bsPagingRequest));
 
-
-//only send html
-exports.ServerSidePaging = function (req, res) {
-    res.render('project/ServerSidePaging.ejs');
+    projectService.getPage(bsPagingRequest).then(function (results) {
+        projectService.getTotalCount(bsPagingRequest, results).then(function (TotalCount) {
+            var bsPagingResponse = { "total": TotalCount, "rows": results };
+            //console.log(JSON.stringify(pagingResponse));
+            res.send(bsPagingResponse);
+        })
+    }).done();
 };
+
+
 
 // api/user/projects
 exports.GetUserProject = function (req, res) {
@@ -67,4 +83,23 @@ exports.Create = function (req, res) {
         //console.log('##' + JSON.stringify(result) + '##');
         res.send(result);
     }).done();
+};
+
+exports.save = function (req, res) {
+    projectService.save(req, res);
+};
+
+
+/********************HTML******************* */
+//only send html
+exports.PagingOnServer = function (req, res) {
+    res.render('datatable/PagingOnServer.ejs');
+};
+exports.PagingOnClient = function (req, res) {
+    projectService.get(req, res).then(function (results) {
+        res.render('datatable/PagingOnClient.ejs', { projects: results });
+    }).done();
+};
+exports.BsTableDemo = function (req, res) {
+    res.render('bstable/demo.ejs');
 };

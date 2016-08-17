@@ -127,11 +127,15 @@ app.post('/api/project', Controllers.Project.Create);
 app.post('/api/user/projects', Controllers.Project.GetUserProject);
 app.get('/api/projects/projectsummary', Controllers.Project.GetUserProjectCount);
 
-//sends  html only
-app.get('/api/Projects/serversidepaging', Controllers.Project.ServerSidePaging);
-
 //get paged data
-app.post('/api/Projects/getpage', Controllers.Project.GetPage);
+app.get('/api/Projects/getpage', Controllers.Project.GetPage);
+app.get('/api/Projects/getbspage', Controllers.Project.GetBSPage);
+
+//sends  html only
+app.get('/api/Projects/pagingonserver', Controllers.Project.PagingOnServer);
+app.get('/api/Projects/pagingonclient', Controllers.Project.PagingOnClient);
+
+app.get('/api/Projects/BsTableDemo', Controllers.Project.BsTableDemo);
 
 //sequelize.sync().then(function (err) {
 sequelize.sync({ force: true }).then(function(err) {

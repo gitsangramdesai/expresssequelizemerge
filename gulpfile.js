@@ -89,11 +89,14 @@ gulp.task('CopyAssets', function() {
             return gulp.src(['./bower_components/jquery/dist/**/*'])
                 .pipe(gulp.dest('./public/assets/jquery'));
         }).then(function() {
-            return gulp.src(['./bower_components/bootstrap-editable/src/**/*'])
-                .pipe(gulp.dest('./public/assets/bootstrap-editable'));
-        }).then(function() {
             return gulp.src(['./bower_components/tableexport.js/dist/**/*'])
                 .pipe(gulp.dest('./public/assets/tableexport'));
+        }).then(function() {
+            return gulp.src(['./bower_components/x-editable/dist/**/*'])
+                .pipe(gulp.dest('./public/assets/x-editable'));
+        }).then(function() {
+            return gulp.src(['./bower_components/bootstrap-editable/src/**/*'])
+                .pipe(gulp.dest('./public/assets/bootstrap-editable'));
         });
 });
 

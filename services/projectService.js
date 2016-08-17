@@ -10,11 +10,16 @@ module.exports = function(sequelize) {
                 return null;
             });
         },
-        getPage: function(pageRequest) {
+        save: function(req, res) {
+           console.log(JSON.stringify(req.body));
+            return null;
+        },
+        getPage: function(pagingRequest) {
             return db.Project.findAll({
-                order: 'id',
-                limit: pageRequest.length,
-                offset: pageRequest.start,
+                where: {name: { $iLike: '%' + pagingRequest.search + '%' }},
+                order: [[pagingRequest.sort,pagingRequest.order]],
+                limit: pagingRequest.length,
+                offset: pagingRequest.start,
             }).then(function(projects) {
                 return projects;
             }).error(function(err) {
