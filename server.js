@@ -124,8 +124,12 @@ app.post('/api/user', Controllers.User.Create);
 //Projects
 app.get('/api/Projects', Controllers.Project.Index);
 app.post('/api/project', Controllers.Project.Create);
+app.post('/api/project/save', Controllers.Project.save);
 app.post('/api/user/projects', Controllers.Project.GetUserProject);
 app.get('/api/projects/projectsummary', Controllers.Project.GetUserProjectCount);
+app.post('/api/project/delete', Controllers.Project.Delete);
+app.post('/api/project/bulkdelete', Controllers.Project.BulkDelete);
+
 
 //get paged data
 app.get('/api/Projects/getpage', Controllers.Project.GetPage);

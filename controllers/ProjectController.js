@@ -78,16 +78,39 @@ exports.Create = function (req, res) {
         name: req.body.name,
         UserId: req.body.UserId
     };
-    //console.log('***' + JSON.stringify(newProject) + '***');
     projectService.findorcreate(newProject).then(function (result) {
-        //console.log('##' + JSON.stringify(result) + '##');
         res.send(result);
     }).done();
 };
 
 exports.save = function (req, res) {
-    projectService.save(req, res);
+    var params = { id: req.body.pk, name: req.body.name, value: req.body.value };
+    projectService.save(params).then(function (result) {
+        res.send(result);
+    }).done();
 };
+
+exports.Delete = function (req, res) {
+    console.log(JSON.stringify(req.body));
+    var newProject = {
+        name: req.body.name,
+        UserId: req.body.UserId,
+        id: req.body.id,
+        createdAt: req.body.createdAt,
+        updatedAt: req.body.updatedAt
+    };
+    projectService.Delete(newProject).then(function (result) {
+        res.send(result);
+    }).done();
+};
+
+exports.BulkDelete = function (req, res) {
+    console.log(JSON.parse(req.body.ids));
+    projectService.bulkDelete(req,res).then(function (result) {
+        res.send(result);
+    }).done();
+};
+
 
 
 /********************HTML******************* */

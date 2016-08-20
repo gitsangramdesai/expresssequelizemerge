@@ -89,7 +89,7 @@
                         align: 'center',
                         editable: {
                             type: 'text',
-                            url: '/post',
+                            url: '/api/Project/save',
                             title: 'Project Name',
                             validate: function (value) {
                                 value = $.trim(value);
@@ -150,12 +150,27 @@
             console.log(name, args);
         });
         $remove.click(function () {
-            var ids = getIdSelections();
-            $table.bootstrapTable('remove', {
-                field: 'id',
-                values: ids
-            });
-            $remove.prop('disabled', true);
+        var ids = getIdSelections();
+        $.ajax({
+                url: '/api/project/bulkdelete',
+                type: 'POST',
+                data: {ids:JSON.stringify(ids)},
+
+                success: function(result){
+                    $table.bootstrapTable('remove', {
+                        field: 'id',
+                        values: ids
+                        });
+                    $remove.prop('disabled', true);
+                },
+                error: function(error)
+                {
+                     alert( error );
+                }
+        });
+
+
+
         });
         $(window).resize(function () {
             $table.bootstrapTable('resetView', {
@@ -201,9 +216,21 @@
             alert('You click like action, row: ' + JSON.stringify(row));
         },
         'click .remove': function (e, value, row, index) {
-            $table.bootstrapTable('remove', {
-                field: 'id',
-                values: [row.id]
+            alert('delete');
+            $.ajax({
+                url: '/api/project/delete',
+                type: 'POST',
+                data: row,
+                success: function(result){
+                     $table.bootstrapTable('remove', {
+                        field: 'id',
+                        values: [row.id]
+                    });
+                },
+                error: function(error)
+                {
+                     alert( error );
+                }
             });
         }
     };
