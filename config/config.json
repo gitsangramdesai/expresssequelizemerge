@@ -4,6 +4,7 @@
     "password": "sangram",
     "database": "poc",
     "host": "localhost",
+    "protocol": "postgres",
     "dialect": "postgres"
   },
   "test": {
@@ -11,6 +12,7 @@
     "password": "sangram",
     "database": "poc",
     "host": "localhost",
+    "protocol": "postgres",
     "dialect": "postgres"
   }
 }

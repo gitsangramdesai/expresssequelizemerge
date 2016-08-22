@@ -5,41 +5,31 @@ var favicon = require('serve-favicon');
 
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-//controllers
-var Controllers = require('./controllers');
-
-//required for logging
 var morgan = require('morgan');
 var winston = require('winston');
 var fs = require('fs');
 var dateFormat = require('dateformat');
+var Sequelize = require("sequelize");
+var Controllers = require('./controllers'); //controllers
 
 winston.setLevels(winston.config.npm.levels);
 winston.addColors(winston.config.npm.colors);
 
-//load routes from seperate route file
-var routes = require('./routes/routes');
-var app_setting_provider = require('./load-app-settings')
+var env = process.env.NODE_ENV || "development"; //determine enviornment 
+var config = require(__dirname + '/config/config.json')[env]; //config for database
 
-//determine enviornment 
-var env = process.env.NODE_ENV || "development";
-
-//parsing config.json file
-var appSettings = app_setting_provider.DEFAULTS
-
-//config for database
-var config = require(__dirname + '/config/config.json')[env];
-
-//sequelize initialization
-var Sequelize = require("sequelize");
-var sequelize = new Sequelize(config.database, config.username, config.password, config);
+var app_setting_provider = require('./load-app-settings');
+var appSettings = app_setting_provider.DEFAULTS //parsing config.json file
+var sequelize = new Sequelize(config.database, config.username, config.password, config); //sequelize initialization
 
 var app = express();
 
 //view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+var passport = require('./config/Passport.js')(app);
+var routes = require('./routes/routes.js')(app, passport, Controllers);
 
 //logger
 var accessLogFilename = __dirname + '/logs/' + appSettings.setting.log.access.prefix + '/' + appSettings.setting.log.access.prefix + appSettings.setting.log.access.seperator + dateFormat(new Date(), appSettings.setting.log.access.fileformat) + '.log';
@@ -113,33 +103,10 @@ winstonDebugLogger = new(winston.Logger)({
 
 var accessLogStream = fs.createWriteStream(accessLogFilename, { flags: 'a' });
 app.use(morgan('combined', { 'stream': accessLogStream })); //attach default logger
+
 app.use(bodyParser());
 app.use('/api/', routes); //mount routes to mount point api(/api) instead of root(/)
 app.use('/static', express.static('public')); //hosting static files
-
-//Users
-app.get('/api/users', Controllers.User.Index);
-app.post('/api/user', Controllers.User.Create);
-
-//Projects
-app.get('/api/Projects', Controllers.Project.Index);
-app.post('/api/project', Controllers.Project.Create);
-app.post('/api/project/save', Controllers.Project.save);
-app.post('/api/user/projects', Controllers.Project.GetUserProject);
-app.get('/api/projects/projectsummary', Controllers.Project.GetUserProjectCount);
-app.post('/api/project/delete', Controllers.Project.Delete);
-app.post('/api/project/bulkdelete', Controllers.Project.BulkDelete);
-
-
-//get paged data
-app.get('/api/Projects/getpage', Controllers.Project.GetPage);
-app.get('/api/Projects/getbspage', Controllers.Project.GetBSPage);
-
-//sends  html only
-app.get('/api/Projects/pagingonserver', Controllers.Project.PagingOnServer);
-app.get('/api/Projects/pagingonclient', Controllers.Project.PagingOnClient);
-
-app.get('/api/Projects/BsTableDemo', Controllers.Project.BsTableDemo);
 
 //sequelize.sync().then(function (err) {
 sequelize.sync({ force: true }).then(function(err) {
@@ -188,5 +155,3 @@ process.on('uncaughtException', function(err) {
     winstonErrorLogger.log('error', JSON.stringify(err.stack));
     //process.exit(1);
 })
-
- 

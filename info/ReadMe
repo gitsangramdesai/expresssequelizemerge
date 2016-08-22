@@ -33,3 +33,13 @@ http://localhost:5000/api/projects
 
 //winston log types 
    debug: 0,info: 1,warn: 2,error: 3
+   
+   
+#git remove folder from repo
+git pull https://github.com/gitsangramdesai/expresssequelizemerge.git
+git rm -r --cached bower_components 
+git commit -m 'Remove directory bower_components'
+git push origin master
+
+#clone given branch
+git clone -b develop https://sangramdesai@bitbucket.org/infojiniconsulting/studmonk-servicestack.git
