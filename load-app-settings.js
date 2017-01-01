@@ -1,9 +1,11 @@
 var fs = require('fs');
 
-function getAppSettings () {
+function getAppSettings() {
   var data = fs.readFileSync('./config/app.json'),
-   options = JSON.parse(data);
-   return options
+    options = JSON.parse(data);
+  return options
 }
 
-module.exports = {DEFAULTS:getAppSettings ()}
+module.exports = {
+  DEFAULTS: getAppSettings()
+}

@@ -71,5 +71,23 @@ module.exports = function(app, passport, Controllers) {
 
     router.get('/Projects/BsTableDemo', Controllers.Project.BsTableDemo);
 
-    return router;
+
+   /********************************Country***********************************/
+      //router.post('/country/update', Controllers.Country.Update);
+      //router.post('/country/delete', Controllers.Country.Delete);
+      //router.post('/country/markasdelete', Controllers.Country.MarkAsDelete);
+
+      //insert
+      router.post('/country', Controllers.Country.Create);
+      
+      //select
+      router.get('/country', Controllers.Country.Index);
+      router.get('/country/:id', Controllers.Country.GetById);
+
+      //delete
+      router.delete('/country/:id', Controllers.Country.Delete);
+      
+      //update
+      router.put('/country', Controllers.Country.Update);
+      return router;
 };

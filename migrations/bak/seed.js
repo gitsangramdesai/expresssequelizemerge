@@ -9,7 +9,7 @@ module.exports = {
         return Promise
             .resolve()
             .then(function () {
-                return queryInterface.bulkInsert('Users', [
+                return queryInterface.bulkInsert('t_user', [
                     {
                         id: 1,
                         createdAt: dateString,
@@ -53,7 +53,7 @@ module.exports = {
                 ]);
             })
             .then(function (res1) {
-                return queryInterface.bulkInsert('Projects', [
+                return queryInterface.bulkInsert('t_project', [
                     {
                         id: 1,
                         createdAt: dateString,
@@ -90,11 +90,66 @@ module.exports = {
                         name: 'SellWise',
                     }
                 ]);
+            }).then(function (res1) {
+                return queryInterface.bulkInsert('t_country', [
+                    {
+                        id: 1,
+                        createdAt: dateString,
+                        updatedAt: dateString,
+                        UserId: 1,
+                        name: 'india',
+                    },
+                    {
+                        id: 2,
+                        createdAt: dateString,
+                        updatedAt: dateString,
+                        UserId: 2,
+                        name: 'indonesia',
+                    },
+                    {
+                        id: 3,
+                        createdAt: dateString,
+                        updatedAt: dateString,
+                        UserId: 2,
+                        name: 'israel',
+                    },
+                    {
+                        id: 4,
+                        createdAt: dateString,
+                        updatedAt: dateString,
+                        UserId: 1,
+                        name: 'egypt',
+                    },
+                    {
+                        id: 5,
+                        createdAt: dateString,
+                        updatedAt: dateString,
+                        UserId: 1,
+                        name: 'us',
+                    },
+                    {
+                        id: 6,
+                        createdAt: dateString,
+                        updatedAt: dateString,
+                        UserId: 1,
+                        name: 'uk',
+                    },
+                    {
+                        id: 7,
+                        createdAt: dateString,
+                        updatedAt: dateString,
+                        UserId: 1,
+                        name: 'canada',
+                    }
+                ]);
             }).then(function (res2) {
-                return queryInterface.sequelize.query("ALTER SEQUENCE \"Users_id_seq\" restart with 5");
+                return queryInterface.sequelize.query("ALTER SEQUENCE t_user_id_seq restart with 5");
             })
             .then(function (res3) {
-                return queryInterface.sequelize.query("ALTER SEQUENCE \"Projects_id_seq\" restart with 6");
+                return queryInterface.sequelize.query("ALTER SEQUENCE t_project_id_seq restart with 6");
+            })
+            .then(function (res3) {
+                return queryInterface.sequelize.query("ALTER SEQUENCE t_country_id_seq restart with 8");
             });
     },
 
@@ -102,15 +157,19 @@ module.exports = {
         return Promise
             .resolve()
             .then(function () {
-                return queryInterface.dropTable('delete from "Projects"');
+                return queryInterface.dropTable('delete from t_project');
             }).then(function (rsp1) {
-                return queryInterface.dropTable('delete from "Users"');
+                return queryInterface.dropTable('delete from t_user');
             }).then(function (rsp2) {
-                return queryInterface.dropTable('delete from "SequelizeMeta"');
+                return queryInterface.dropTable('delete from t_sequelizemeta');
+            }).then(function (rsp2) {
+                return queryInterface.dropTable('delete from t_country');
             }).then(function (rsp3) {
-                return queryInterface.sequelize.query("ALTER SEQUENCE \"Users_id_seq\" restart with 1");
+                return queryInterface.sequelize.query("ALTER SEQUENCE user_id_seq restart with 1");
             }).then(function (rsp4) {
-                return queryInterface.sequelize.query("ALTER SEQUENCE \"Projects_id_seq\" restart with 1");
+                return queryInterface.sequelize.query("ALTER SEQUENCE project_id_seq restart with 1");
+            }).then(function (rsp4) {
+                return queryInterface.sequelize.query("ALTER SEQUENCE t_country_id_seq restart with 1");
             });
     }
 };

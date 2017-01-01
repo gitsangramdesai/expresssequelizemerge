@@ -43,3 +43,13 @@ git push origin master
 
 #clone given branch
 git clone -b develop https://sangramdesai@bitbucket.org/infojiniconsulting/studmonk-servicestack.git
+
+
+//creating named migration 
+sequelize migration:create --name="mig1"
+
+//config file of sequelize
+.sequelizerc
+
+//run all pending migration 
+sequelize db:migrate 

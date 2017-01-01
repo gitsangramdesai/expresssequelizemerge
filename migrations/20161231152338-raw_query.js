@@ -9,7 +9,7 @@ module.exports = {
       Example:
       return queryInterface.createTable('users', { id: Sequelize.INTEGER });
     */
-    queryInterface.sequelize.query("UPDATE \"Users\" SET password = 'pass@12356'").then(function (result) {
+    queryInterface.sequelize.query("UPDATE t_user SET password = 'pass@12356'").then(function (result) {
       console.log(result);
     });
   },

@@ -2,6 +2,7 @@
 var express = require("express");
 var path = require('path');
 var favicon = require('serve-favicon');
+var multer = require('multer');
 
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -18,8 +19,13 @@ winston.addColors(winston.config.npm.colors);
 var env = process.env.NODE_ENV || "development"; //determine enviornment 
 var config = require(__dirname + '/config/config.json')[env]; //config for database
 
+
+
+
 var app_setting_provider = require('./load-app-settings');
 var appSettings = app_setting_provider.DEFAULTS //parsing config.json file
+
+
 var sequelize = new Sequelize(config.database, config.username, config.password, config); //sequelize initialization
 
 var app = express();
@@ -27,6 +33,56 @@ var app = express();
 //view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/reported_images');
+    },
+    filename: function (req, file, cb) {
+        var extension = file.mimetype;
+        extension = extension.split('/');
+        extension = extension[1];
+        cb(null, Date.now() + "." + extension);
+    }
+});
+app.use(multer({
+    dest: './uploads/',
+    storage: storage,
+    fileFilter: function (req, file, cb) {
+        cb(null, true);
+    }
+}).any());
+
+
+app.use(function (req, res, next) {
+    console.log(req.url);
+    if (typeof req.files == "undefined") {
+        req.files = [];
+    }
+    for (var i = 0; i < req.files.length; i++) {
+        req[req.files[i]['fieldname']] = {};
+        req[req.files[i]['fieldname']] = req.files[i];
+    }
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+
+
 
 var passport = require('./config/Passport.js')(app);
 var routes = require('./routes/routes.js')(app, passport, Controllers);
@@ -39,7 +95,7 @@ var infoLogFilename = __dirname + '/logs/' + appSettings.setting.log.info.prefix
 var debugLogFilename = __dirname + '/logs/' + appSettings.setting.log.debug.prefix + '/' + appSettings.setting.log.debug.prefix + appSettings.setting.log.debug.seperator + dateFormat(new Date(), appSettings.setting.log.debug.fileformat) + '.log';
 
 //warning
-winstonWarningLogger = new(winston.Logger)({
+winstonWarningLogger = new (winston.Logger)({
     transports: [
         new winston.transports.Console({
             level: 'warn', // Only write logs of warn level or higher
@@ -54,7 +110,7 @@ winstonWarningLogger = new(winston.Logger)({
 });
 
 //error
-winstonErrorLogger = new(winston.Logger)({
+winstonErrorLogger = new (winston.Logger)({
     transports: [
         new winston.transports.File({
             level: 'error',
@@ -70,7 +126,7 @@ winstonErrorLogger = new(winston.Logger)({
 });
 
 //Info
-winstonInfoLogger = new(winston.Logger)({
+winstonInfoLogger = new (winston.Logger)({
     transports: [
         new winston.transports.File({
             level: 'info',
@@ -86,7 +142,7 @@ winstonInfoLogger = new(winston.Logger)({
 });
 
 //debug
-winstonDebugLogger = new(winston.Logger)({
+winstonDebugLogger = new (winston.Logger)({
     transports: [
         new winston.transports.File({
             level: 'debug',
@@ -104,12 +160,18 @@ winstonDebugLogger = new(winston.Logger)({
 var accessLogStream = fs.createWriteStream(accessLogFilename, { flags: 'a' });
 app.use(morgan('combined', { 'stream': accessLogStream })); //attach default logger
 
-app.use(bodyParser());
+app.use(bodyParser.urlencoded(
+    {
+        extended: true
+    }
+)); //application/x-www-form-urlencoded
+app.use(bodyParser.json());
+
 app.use('/api/', routes); //mount routes to mount point api(/api) instead of root(/)
 app.use('/static', express.static('public')); //hosting static files
 
 //sequelize.sync().then(function (err) {
-sequelize.sync({ force: true }).then(function(err) {
+sequelize.sync({ force: true }).then(function (err) {
     if (typeof err.stack !== 'undefined' && err.stack !== null) {
         console.log(err.stack);
     } else {
@@ -118,7 +180,7 @@ sequelize.sync({ force: true }).then(function(err) {
 });
 
 //page not found
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.status(404);
     if (req.accepts('html')) {
         res.render('404.ejs', { title: '404: Page Not Found', Url: req.url });
@@ -132,7 +194,7 @@ app.use(function(req, res, next) {
 });
 
 //internal server error
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     if (req.accepts('html')) {
         res.render('500.ejs', { title: '500: Internal Server Error', error: err });
@@ -141,13 +203,13 @@ app.use(function(err, req, res, next) {
     res.type('txt').send('Something is broken on our end, email us if this issue persist.');
 });
 
-app.listen(5000, function() {
+app.listen(5000, function () {
     winstonInfoLogger.log('info', 'listening started at ' + (new Date).toUTCString());
     console.log('App is listening on port 5000!');
 });
 
 
-process.on('uncaughtException', function(err) {
+process.on('uncaughtException', function (err) {
     console.log('error', (new Date).toUTCString() + ' uncaughtException:' + err.message);
     console.log('error', err.stack);
 
