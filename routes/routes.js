@@ -73,10 +73,6 @@ module.exports = function(app, passport, Controllers) {
 
 
    /********************************Country***********************************/
-      //router.post('/country/update', Controllers.Country.Update);
-      //router.post('/country/delete', Controllers.Country.Delete);
-      //router.post('/country/markasdelete', Controllers.Country.MarkAsDelete);
-
       //insert
       router.post('/country', Controllers.Country.Create);
       
@@ -89,5 +85,20 @@ module.exports = function(app, passport, Controllers) {
       
       //update
       router.put('/country', Controllers.Country.Update);
+
+      /********************************Language***********************************/
+      //insert
+      router.post('/language', Controllers.Language.Create);
+      
+      //select
+      router.get('/language', Controllers.Language.Index);
+      router.get('/language/:id', Controllers.Language.GetById);
+
+      //delete
+      router.delete('/language/:id', Controllers.Language.Delete);
+      
+      //update
+      router.put('/language', Controllers.Language.Update);
+
       return router;
 };
